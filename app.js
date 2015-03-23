@@ -25,11 +25,18 @@ csv(records)
 		if(err) throw err;
 		
 		var collection = db.collection('sample');
-		var count = collection.find().count();
+		
+		collection.find().count( function(err, val) {
+			
+				
+		if (val === 0){
 		
 			collection.insert(records, function (err, doc) {
 				//console.log(doc);
 			});
+		}
+	});
+	
 	});
 	console.log('Number of lines: ' + count);
 });
