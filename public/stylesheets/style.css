@@ -1,8 +1,37 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	margin: 0px;
+	position: relative;
+	width:100%;
+	padding: 50px;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-color: #99CCFF;
 }
 
 a {
-  color: #00B7FF;
+	color: #4C0000;
+	text-decoration: none;
 }
+
+li {
+	position: relative;
+	padding: 10px;
+	left: 10%;
+	width:100%;
+	font-size: 25px;
+}
+	
+th, td {
+	padding: 15px;
+	height: 50px;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+table, th, td {
+	width: 100%;
+	border: 1px solid black;
+ }
+ 

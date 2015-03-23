@@ -1,5 +1,10 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	h1 #{title}
+	
+	#wrapper
+	
+	each school, i in list
+		li
+			a(href="#{school.UNITID}")= school.INSTNM
