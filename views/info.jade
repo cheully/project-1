@@ -13,11 +13,16 @@ tr
 	td #{user.EIN}
 	td #{user.OPEID}
 	td #{user.OPEFLAG}
-	td #{user.WEBADDR}
-	td #{user.ADMINURL}
-	td #{user.FAIDURL}
-	td #{user.APPLURL}
-	td #{user.NPRICURL}
+	td
+		a(href="http://#{user.WEBADDR}")= user.WEBADDR
+	td 
+		a(href="http://#{user.ADMINURL}")= user.ADMINURL
+	td 
+		a(href="http://#{user.FAIDURL}")= user.FAIDURL
+	td 
+		a(href="http://#{user.APPLURL}")= user.APPLURL
+	td 
+		a(href="http://#{user.NPRICURL}")= user.NPRICURL
 	td #{user.SECTOR}
 	td #{user.ICLEVEL}
 	td #{user.CONTROL}
