@@ -5,6 +5,7 @@ var express = require('express'),
    http = require('http'),
    csv = require('csv'),
    path = require('path');
+   async = require('async');
 var records = new Array();
 var app = express();
 var records = [];
@@ -25,13 +26,22 @@ csv(records)
 		if(err) throw err;
 		
 		var collection = db.collection('sample');
-		var count = collection.find().count();
 		
-			collection.insert(records, function (err, doc) {
-				//console.log(doc);
+		async.eachSeries(records, function(info, callback) {
+			
+			collection.find({'UNITID': info.UNITID}).count(function(err, val) {
+				
+			if (val === 0){
+				collection.insert(info, function (err, doc) {
+					//console.log(doc);
+				});
+			}
 			});
+			callback();
+		});
+		
 	});
-	console.log('Number of lines: ' + count);
+	//console.log('Number of lines: ' + count);	
 });
 
 app.configure(function () {
