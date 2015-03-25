@@ -26,6 +26,14 @@ csv(records)
 		if(err) throw err;
 		
 		var collection = db.collection('sample');
+<<<<<<< HEAD
+=======
+		
+		collection.find().count( function(err, val) {
+			
+				
+		if (val === 0){
+>>>>>>> origin/master
 		
 		async.eachSeries(records, function(info, callback) {
 			
@@ -37,9 +45,15 @@ csv(records)
 				});
 			}
 			});
+<<<<<<< HEAD
 			callback();
 		});
 		
+=======
+		}
+	});
+	
+>>>>>>> origin/master
 	});
 	//console.log('Number of lines: ' + count);	
 });
