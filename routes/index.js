@@ -10,7 +10,7 @@ var collections = ['sample'];
 var db = require('mongojs').connect(dburl, collections);
 
 exports.index = function(req, res){
-	db.sample.find( function(err, index) {
+	db.sample.find().sort({'INSTNM':1}, function(err, index) {
 		res.render('index', { title: 'Colleges', list: index });
 	});
 };
