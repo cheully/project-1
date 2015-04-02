@@ -1,70 +1,10 @@
 table
 	thead
-		th ID
-		th Address
-		th City
-		th State
-		th Zip
-		th FIPS
-		th OBEREG
-		th Chief Name
-		th Chief Title
-		th General Telephone Number
-		th Fax Number
-		th EIN
-		th OPEID
-		th OPEFLAG
-		th Home Page
-		th Admission Url
-		th Financial Aid Url
-		th Application Url
-		th Net Price Calculator Url
-		th SECTOR
-		th ICLEVEL
-		th CONTROL
-		th HLOFFER
-		th UGOFFER
-		th GROFFER
-		th HDEGOFR1
-		th DEGGRANT
-		th HBCU
-		th Hospital
-		th Medical
-		th TRIBAL
-		th LOCALE
-		th OPENPUBL
-		th ACT
-		th NEWID
-		th DEATHYR
-		th CLOSEDAT
-		th CYACTIVE
-		th POSTSEC
-		th PSEFLAG
-		th PSET4FLG
-		th RPTMTH
-		th IALIAS
-		th INSTCAT
-		th CCBASIC
-		th CCIPUG
-		th CCIPGRAD
-		th CCUGPROF
-		th CCENRPRF
-		th CCSIZSET
-		th CARNEGIE
-		th LANDGRNT
-		th INSTSIZE
-		th CBSA
-		th CBSATYPE
-		th CSA
-		th NECTA
-		th F1SYSTYP
-		th F1SYSNAM
-		th F1SYSCOD
-		th COUNTYCD
-		th County
-		th CNGDSTCD
-		th Longitude
-		th Latitude
+		each heading, i in heads
+			if heading.varTitle == "INSTNM"
+				continue
+			
+			th(width= #{heading.Fieldwidth})= heading.varTitle
 	
 		tbody
 			include info

@@ -3,8 +3,10 @@ extends layout
 block content
 	h1 #{title}
 	
-	#wrapper
+	a(href="fileupload")
+		button Upload
+		
+	a(href="colleges")
+		button Colleges
+		
 	
-	each school, i in list
-		li
-			a(href="#{school.UNITID}")= school.INSTNM

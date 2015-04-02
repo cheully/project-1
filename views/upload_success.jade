@@ -1,0 +1,15 @@
+extends layout
+
+block content
+	h1 #{title}
+	
+	p File was successfully uploaded! Click the return button to go to the main page.
+	
+	a(href="/")
+		button Return to Main Page
+	
+	a(href="/upload")
+		button Re-upload a csv file
+		
+	a(href="/upload/file-upload/addToDataBase")
+		button Add file to database

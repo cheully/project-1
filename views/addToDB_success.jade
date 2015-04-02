@@ -1,0 +1,10 @@
+extends layout
+
+block content
+	h1 #{title}
+	
+	p File was added to the database! Click the return button to go to the main page.
+	
+	a(href="#{location}")
+		button Return to Main Page
+	

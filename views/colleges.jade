@@ -1,0 +1,10 @@
+extends layout
+
+block content
+	h1 #{title}
+	
+	#wrapper
+	
+	each school, i in list
+		li
+			a(href="colleges/#{school.UNITID}")= school.INSTNM
