@@ -1,71 +1,9 @@
 tr
-	td #{user.UNITID}
-	td #{user.ADDR}
-	td #{user.CITY}
-	td #{user.STABBR}
-	td #{user.ZIP}
-	td #{user.FIPS}
-	td #{user.OBEREG}
-	td #{user.CHFNM}
-	td #{user.CHFTITLE}
-	td #{user.GENTELE}
-	td #{user.FAXTELE}
-	td #{user.EIN}
-	td #{user.OPEID}
-	td #{user.OPEFLAG}
-	td
-		a(href="//#{user.WEBADDR}")= user.WEBADDR
-	td 
-		a(href="//#{user.ADMINURL}")= user.ADMINURL
-	td 
-		a(href="//#{user.FAIDURL}")= user.FAIDURL
-	td 
-		a(href="//#{user.APPLURL}")= user.APPLURL
-	td 
-		a(href="//#{user.NPRICURL}")= user.NPRICURL
-	td #{user.SECTOR}
-	td #{user.ICLEVEL}
-	td #{user.CONTROL}
-	td #{user.HLOFFER}
-	td #{user.UGOFFER}
-	td #{user.GROFFER}
-	td #{user.HDEGOFR1}
-	td #{user.DEGGRANT}
-	td #{user.HBCU}
-	td #{user.HOSPITAL}
-	td #{user.MEDICAL}
-	td #{user.TRIBAL}
-	td #{user.LOCALE}
-	td #{user.OPENPUBL}
-	td #{user.ACT}
-	td #{user.NEWID}
-	td #{user.DEATHYR}
-	td #{user.CLOSEDAT}
-	td #{user.CYACTIVE}
-	td #{user.POSTSEC}
-	td #{user.PSEFLAG}
-	td #{user.PSET4FLG}
-	td #{user.RPTMTH}
-	td #{user.IALIAS}
-	td #{user.INSTCAT}
-	td #{user.CCBASIC}
-	td #{user.CCIPUG}
-	td #{user.CCIPGRAD}
-	td #{user.CCUGPROF}
-	td #{user.CCENRPRF}
-	td #{user.CCSIZSET}
-	td #{user.CARNEGIE}
-	td #{user.LANDGRNT}
-	td #{user.INSTSIZE}
-	td #{user.CBSA}
-	td #{user.CBSATYPE}
-	td #{user.CSA}
-	td #{user.NECTA}
-	td #{user.F1SYSTYP}
-	td #{user.F1SYSNAM}
-	td #{user.F1SYSCOD}
-	td #{user.COUNTYCD}
-	td #{user.COUNTYNM}
-	td #{user.CNGDSTCD}
-	td #{user.LONGITUD}
-	td #{user.LATITUDE}
+	each val, key in list
+		if (key === "ADMINURL" || key === "APPLURL" || key === "FAIDURL" || key === "NPRICURL" || key === "WEBADDR")
+			td
+				a(href="//#{val}") #{val}
+		
+		else 
+			td #{val}
+		

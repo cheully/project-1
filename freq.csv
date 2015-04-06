@@ -227,13 +227,10 @@ varnumber,varname,codevalue,valuelabel,frequency,percent
 ",154,1.98
 10221,PSET4FLG,3,"Title IV NOT primarily postsecondary institution
 ",45,0.58
-10221,PSET4FLG,4,"Non-Title IV NOT primarily postsecondary institution
-",2,0.03
+10221,PSET4FLG,4,"Non-Title IV NOT primarily postsecondary institution",2,0.03
 10221,PSET4FLG,5,Title IV postsecondary institution that is NOT open to the public,1,0.01
-10221,PSET4FLG,6,"Non-Title IV postsecondary institution that is NOT open to the public
-",4,0.05
-10221,PSET4FLG,9,"Institution is not active in current universe
-",131,1.69
+10221,PSET4FLG,6,"Non-Title IV postsecondary institution that is NOT open to the public",4,0.05
+10221,PSET4FLG,9,"Institution is not active in current universe",131,1.69
 15055,RPTMTH,1,Student charges for full academic year and fall GR/SFA/retention rate cohort,4406,56.71
 15055,RPTMTH,3,Student charges for full academic year and full-year GR/SFA/retention rate cohort,387,4.98
 15055,RPTMTH,2,Student charges by program and full-year GR/SFA/retention rate cohort,2740,35.27
@@ -242,8 +239,7 @@ varnumber,varname,codevalue,valuelabel,frequency,percent
 15210,INSTCAT,1,"Degree-granting, graduate with no undergraduate degrees",323,4.16
 15210,INSTCAT,2,"Degree-granting, primarily baccalaureate or above",2192,28.21
 15210,INSTCAT,3,"Degree-granting, not primarily baccalaureate or above",645,8.3
-15210,INSTCAT,4,"Degree-granting, associate's and certificates 
-",1729,22.26
+15210,INSTCAT,4,"Degree-granting, associate's and certificates",1729,22.26
 15210,INSTCAT,5,"Nondegree-granting, above the baccalaureate",12,0.15
 15210,INSTCAT,6,"Nondegree-granting, sub-baccalaureate",2631,33.87
 15210,INSTCAT,-1,Not reported,31,0.4

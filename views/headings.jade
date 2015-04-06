@@ -1,10 +1,7 @@
 table
 	thead
 		each heading, i in heads
-			if heading.varTitle == "INSTNM"
-				continue
+			th #{heading.varTitle}
 			
-			th(width= #{heading.Fieldwidth})= heading.varTitle
-	
 		tbody
 			include info
