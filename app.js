@@ -3,7 +3,7 @@ var express = require('express'),
    routes = require('./routes'),
    user = require('./routes/user'),
    upload = require('./routes/upload'),
-   dbparser = require('./routes/dbparser'),
+   //dbparser = require('./routes/dbparser'),
    http = require('http'),
    path = require('path');
 

@@ -56,23 +56,15 @@ exports.file_success = function( req, res, next) {
 					
 				if (val === 0){
 					collection.insert(info, function (err, doc) {
-						//console.log(doc);
 					});
 				}
 				});
-
 				callback();
 			});
-			
-			
 		});
-		
-
 	});
-		//console.log('Number of lines: ' + count);	
-
-		res.render('addToDB_success', {title: 'Database Add Success!', location:'/descriptionupload'});
-		}
+	res.render('addToDB_success', {title: 'Database Add Success!', location:'/'});
+	}
 };
 
 exports.description_success = function( req, res, next) {
@@ -148,7 +140,7 @@ exports.description_success = function( req, res, next) {
 	});
 		//console.log('Number of lines: ' + count);	
 
-		res.render('addToDB_success', {title: 'Database Add Success!', location:'/frequencyupload'});
+		res.render('addToDB_success', {title: 'Database Add Success!', location:'/'});
 		}
 };
 
