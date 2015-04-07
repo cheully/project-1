@@ -23,10 +23,16 @@ exports.list = function(req, res, next){
 			
 			// Loop to go through each key in the schoolInfo object
 			Object.keys(schoolInfo[0]).forEach(function (key) {
-				var strKey = key.toString();
+
+				var strKey = key.toString().replace(/\s/g,'');
 				
+				if (key != "_id") {
+				var checkval = String(schoolInfo[0][strKey]).replace(/\s/g,'');
+				} else {
+				var checkval = schoolInfo[0][strKey];
+				}
 				// Finds the long description of the specific key using the codevalue and varname fields
-				db3.freq.find({ $and: [{'varname': strKey}, {'codevalue': schoolInfo[0][strKey]}]}, function (err, info) {
+				db3.freq.find({ $and: [{'varname': strKey}, {'codevalue': checkval}]}, function (err, info) {
 							
 					// Had to use a loop to actually access the key of the info object
 					for (k in info) {
