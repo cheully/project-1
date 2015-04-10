@@ -1,9 +1,9 @@
-html, body {
-	position:absolute;
-	left:0;
-	width:95%;
-	height:100%;
-	padding: 30px;
+html{
+	position:relative;
+	height:10%;
+	top: 0;
+	left: 0;
+	padding: 10px;
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 	background-color: #99CCFF;
 }
@@ -38,3 +38,7 @@ table, th, td {
 	border-collapse: collapse;
  }
  
+ #wrapper{
+	position:relative;
+	padding:25px;
+ }

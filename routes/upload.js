@@ -12,7 +12,7 @@ exports.file_success = function( req, res, next) {
 				if (err) throw err;
 			});
 		
-	} else {	
+	} else {		
 		// get the temporary location of the file
 		var tmp_path = req.files.csvFile.path;
 		// set where the file should actually exists - in this case it is in the "incoming" directory
