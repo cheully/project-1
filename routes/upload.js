@@ -39,11 +39,10 @@ exports.file_success = function( req, res, next) {
 	})
 		.on('record', function (row, index) {
 		records.push(row);
-
-	   //console.log(row);
 	})
 		.on('end', function (count) {
 		var MongoClient = require('mongodb').MongoClient;
+		
 	   // Connect to the db
 		MongoClient.connect("mongodb://localhost:27017/IPEDS_Documentation", function (err, db) {
 			if(err) throw err;
@@ -109,7 +108,6 @@ exports.description_success = function( req, res, next) {
 		.on('record', function (row, index) {
 		records.push(row);
 
-	   //console.log(row);
 	})
 		.on('end', function (count) {
 		var MongoClient = require('mongodb').MongoClient;
@@ -186,7 +184,6 @@ exports.frequency_success = function( req, res, next) {
 		.on('record', function (row, index) {
 		records.push(row);
 
-	   //console.log(row);
 	})
 		.on('end', function (count) {
 		var MongoClient = require('mongodb').MongoClient;

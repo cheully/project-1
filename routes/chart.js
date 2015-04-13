@@ -1,3 +1,7 @@
+/*
+	Show the different graphs
+*/
+	
 exports.bargraph = function(req, res) {
 	// Connecting to the mongodb database with the information from the institution document
 	var dburl = 'localhost:27017/IPEDS_Documentation';
