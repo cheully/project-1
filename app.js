@@ -3,6 +3,8 @@ var express = require('express'),
    routes = require('./routes'),
    user = require('./routes/user'),
    upload = require('./routes/upload'),
+   add = require('./routes/add'),
+   chart = require('./routes/chart'),
    //dbparser = require('./routes/dbparser'),
    http = require('http'),
    path = require('path');
@@ -29,6 +31,7 @@ app.configure('development', function () {
 app.get('/colleges', routes.colleges); //This shows the list of all the universities in the csv file
 app.get('/colleges/:id', user.list); //This give the user.js the address to show a specific university's info
 
+
 app.get('/',routes.indexes); // Welcome page
 app.get('/fileupload',routes.file_upload); // Upload a data file
 app.post('/upload/file-uploaded', upload.file_success); //Data file was loaded successfully
@@ -38,6 +41,11 @@ app.post('/upload/description-uploaded', upload.description_success); // Descrip
 
 app.get('/frequencyupload',routes.frequency_upload); // Upload a frequency file
 app.post('/upload/frequency-uploaded', upload.frequency_success); // Frequency file uploaded successfully
+
+app.get('/additionaluploads',add.additionalfiles);
+app.post('/upload/additional-uploaded', add.additional_success);
+
+app.get('/chart', chart.bargraph);
 
 http.createServer(app).listen(app.get('port'), function () {
 	console.log("Express server listening on port " + app.get('port'));

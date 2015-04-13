@@ -24,20 +24,24 @@ exports.list = function(req, res, next){
 			// Loop to go through each key in the schoolInfo object
 			Object.keys(schoolInfo[0]).forEach(function (key) {
 
-				var strKey = key.toString().replace(/\s/g,'');
+				//var strKey = key.toString().replace(/\s/g,'');
 				
 				if (key != "_id") {
-				var checkval = String(schoolInfo[0][strKey]).replace(/\s/g,'');
+					if( String(schoolInfo[0][key]) === "-2") {
+						var checkval = "-2";
+					} else {
+						var checkval = String(schoolInfo[0][key]).replace(/\s/g,'');
+					}
 				} else {
-				var checkval = schoolInfo[0][strKey];
+				var checkval = schoolInfo[0][key];
 				}
 				// Finds the long description of the specific key using the codevalue and varname fields
-				db3.freq.find({ $and: [{'varname': strKey}, {'codevalue': checkval}]}, function (err, info) {
+				db3.freq.find({ $and: [{'varname': key}, {'codevalue': checkval}]}, function (err, info) {
 							
 					// Had to use a loop to actually access the key of the info object
 					for (k in info) {
 						// Replace shorted value stored in the key with the long description of the value
-						schoolInfo[0][strKey] = info[k].valuelabel;
+						schoolInfo[0][key] = info[k].valuelabel;
 					}
 							
 					// Condition to check if we are at the last key of schoolInfo

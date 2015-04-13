@@ -2,10 +2,10 @@
 /*
  * GET home page.
  */
- 
 exports.indexes = function(req, res) {
+
 	res.render('index', {title: 'Welcome'});
-}
+};
 
 exports.file_upload = function(req, res) {
 	res.render('upload', {title: 'Upload data file', filetype:'data', location:'/upload/file-uploaded'});
