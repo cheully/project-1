@@ -4,52 +4,46 @@ block content
 	h1 #{title}
 	
 	div(id="barchart")
-
+	
 	script
 		var chart = c3.generate({
 			bindto: '#barchart',
 			data: {
 			columns: [
-					[ '#{topSchools[0].INSTNM}', '#{topSchools[0].Total}' ]
-							
+					[ '#{topSchools[0].INSTNM}', '#{topSchools[0].Total}' ],
+					[ '#{topSchools[1].INSTNM}', '#{topSchools[1].Total}' ],
+					[ '#{topSchools[2].INSTNM}', '#{topSchools[2].Total}' ],
+					[ '#{topSchools[3].INSTNM}', '#{topSchools[3].Total}' ],
+					[ '#{topSchools[4].INSTNM}', '#{topSchools[4].Total}' ]				
 			],
+
 			type: 'bar'
-			
 			},
 			
 			bar: {
 				width: 100
+			},
+			
+			interaction: {
+				enabled: false
+			},
+			
+			legend: {
+				item: {
+					onclick: function (id) { 
+						var link;
+						
+						for (var i=0; i < topSchools.length; i++){
+						
+							if (topSchools[i].INSTNM === id){
+								link = "/chart/" + toString(topSchools[i].UNITID);
+								break;
+							}
+						}
+						window.location.href(link);
+					},
+					onmouseover: function (id) { chart.transform('pie', id) },
+					onmouseout: function (id) { chart.transform('bar', id) }
+				}
 			}
 		});
-		
-		setTimeout(function () {
-			chart.load({
-			columns: [
-				[ '#{topSchools[1].INSTNM}', '#{topSchools[1].Total}' ]
-			]
-			});
-		}, 1000);
-		
-		setTimeout(function () {
-			chart.load({
-			columns: [
-				[ '#{topSchools[2].INSTNM}', '#{topSchools[2].Total}' ]
-			]
-			});
-		}, 1000);
-		
-		setTimeout(function () {
-			chart.load({
-			columns: [
-				[ '#{topSchools[3].INSTNM}', '#{topSchools[3].Total}' ]
-			]
-			});
-		}, 1000);
-		
-		setTimeout(function () {
-			chart.load({
-			columns: [
-				[ '#{topSchools[4].INSTNM}', '#{topSchools[4].Total}' ]
-			]
-			});
-		}, 1000);

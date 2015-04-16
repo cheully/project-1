@@ -1,6 +1,6 @@
 
 /*
- * GET institution listing.
+ * Add additional information to existing documents
  */
  
 exports.additionalfiles = function(req, res) {
@@ -13,7 +13,8 @@ exports.additional_success = function( req, res, next) {
 	var fileName = req.files.csvFile.name;
 	
 	if(fileName === '') {
-		res.render('error', {title: 'Upload Error!', msg: 'No file selected! Please upload a file!', location: '/fileupload'} );
+
+		res.render('error', {title: 'Upload Error!', msg: 'No file selected! Please upload a file!', location: '/additionaluploads'} );
 		var tmp_path = req.files.csvFile.path;
 		
 			// delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
@@ -65,9 +66,23 @@ exports.additional_success = function( req, res, next) {
 			for(var i in records){
 				
 				if ( ID === records[i]['UNITID'] ) {
+					// Add the values of the current object to the variables
 					totalCount = totalCount + parseInt(records[i]['EFTOTLT']);
 					maleCount = maleCount + parseInt(records[i]['EFTOTLM']);
 					femaleCount = femaleCount + parseInt(records[i]['EFTOTLW']);
+					
+					// If it is the last record, add it to the database
+					if( i === records.length - 1) {
+						var obj = new Object();
+						obj['GENDER'] = {'Total Enrollment' : totalCount, 'Male Enrollment' : maleCount, 'Female Enrollment' : femaleCount};
+						
+							collection.update({'UNITID': ID}, { $push: obj }, function(err, val) {
+							
+								console.log('Updated!');
+							});
+							
+						break;
+					}
 				
 				} else {
 					
@@ -78,7 +93,8 @@ exports.additional_success = function( req, res, next) {
 							
 							console.log('Updated!');
 						});
-						
+					
+					// Reset the four variables with the current values
 					ID = records[i]['UNITID'];
 					totalCount = parseInt(records[i]['EFTOTLT']);
 					maleCount = parseInt(records[i]['EFTOTLM']);
