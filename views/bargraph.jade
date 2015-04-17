@@ -31,16 +31,12 @@ block content
 			legend: {
 				item: {
 					onclick: function (id) { 
-						var link;
 						
-						for (var i=0; i < topSchools.length; i++){
 						
-							if (topSchools[i].INSTNM === id){
-								link = "/chart/" + toString(topSchools[i].UNITID);
-								break;
-							}
+						for(var i=0; i<10; i++){
+							console.log('#{topSchools[0].INSTNM}');
 						}
-						window.location.href(link);
+						
 					},
 					onmouseover: function (id) { chart.transform('pie', id) },
 					onmouseout: function (id) { chart.transform('bar', id) }
