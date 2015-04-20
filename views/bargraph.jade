@@ -3,6 +3,8 @@ extends layout
 block content
 	h1 #{title}
 	
+	
+	div(id="text") Hi
 	div(id="barchart")
 	
 	script
@@ -24,22 +26,17 @@ block content
 				width: 100
 			},
 			
-			interaction: {
-				enabled: false
-			},
-			
 			legend: {
 				item: {
 					onclick: function (id) { 
-						
-						
-						for(var i=0; i<10; i++){
-							console.log('#{topSchools[0].INSTNM}');
-						}
-						
+						window.location.href= "/chart/" + id;
 					},
 					onmouseover: function (id) { chart.transform('pie', id) },
 					onmouseout: function (id) { chart.transform('bar', id) }
 				}
+			},
+			
+			tooltip: {
+				show: false
 			}
 		});

@@ -46,6 +46,7 @@ app.get('/additionaluploads',add.additionalfiles);
 app.post('/upload/additional-uploaded', add.additional_success);
 
 app.get('/chart', chart.bargraph);
+app.get('/chart/:sid', chart.viewInfo);
 
 http.createServer(app).listen(app.get('port'), function () {
 	console.log("Express server listening on port " + app.get('port'));

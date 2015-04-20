@@ -37,3 +37,39 @@ exports.bargraph = function(req, res) {
 		res.render('bargraph', {title: 'Bar Graph', topSchools: list});
 	});
 };
+
+exports.viewInfo = function(req, res) {
+	var dburl = 'localhost:27017/IPEDS_Documentation';
+	var collection = ['institutions'];
+	var db = require('mongojs').connect(dburl, collection);
+	
+	// Get all the institutions' specified fields and sort them based on Total Enrollment in descending order
+	db.institutions.findOne({"INSTNM": req.params.sid}, {"GENDER.Male Enrollment":1, "GENDER.Female Enrollment":1}, function(err, info) {
+		
+		var genderList = new Array(); // Array to store the top 10 institutions
+		var longTitle = "Information for " + req.params.sid;
+		
+		for (var key in info) {
+			
+			if (key === "GENDER") {
+				// Recognizing the stored objects in info and converting it to integer
+
+				var obj = new Object();
+				obj["Female"] = parseInt(JSON.stringify(info[key][0]["Female Enrollment"]));
+				genderList.push(obj);
+				
+				var obj = new Object();
+				obj["Male"] = parseInt(JSON.stringify(info[key][0]["Male Enrollment"]));
+				genderList.push(obj);	// Put new object into list
+				} 
+
+		}
+		console.log(genderList);
+		// Render bargraph with the title and lists
+		res.render('moregraphs', {title: longTitle, genderRatio: genderList});
+	});
+	
+
+
+};
+

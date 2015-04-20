@@ -1,0 +1,27 @@
+extends layout
+
+block content
+	h1 #{title}
+
+	div(id="piechart")
+	
+	div(id="L", style="display:none")
+		
+	script
+		var chart = c3.generate({
+			bindto: '#piechart',
+			data: {
+			columns: [
+					[ "Female", '#{genderRatio[0].Female}' ],
+					[ "Male", '#{genderRatio[1].Male}' ],			
+			],
+
+			type: 'pie',
+			
+			onclick: function(d,i) {
+					document.getElementById("L").style.display = "block";
+					document.getElementById("L").innerHTML= "Currently, there are " + JSON.stringify(d['value']) + " " + d['id'].toLowerCase() + "s enrolled!";
+			console.log("Currently, there are " + JSON.stringify(d['value']) + " " + d['id'].toLowerCase() + "s enrolled!"); }
+			
+			}
+		});
