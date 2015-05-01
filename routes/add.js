@@ -4,10 +4,13 @@
  */
  
 exports.additionalfiles = function(req, res) {
-	res.render('upload', {title: 'Upload additional file', filetype:'data', location:'/upload/additional-uploaded'});
+	res.render('moreupload', {title: 'Upload additional file', filetype:'data', location:'/upload/additional-uploaded'});
 };
 
 exports.additional_success = function( req, res, next) {
+	/*for (var i=0; i<req.files.csvFile.length; i++){
+	console.log(req.files.csvFile[i].name);
+	}*/
 
 	var fs = require('fs');
 	var fileName = req.files.csvFile.name;
@@ -103,6 +106,7 @@ exports.additional_success = function( req, res, next) {
 			}
 		});
 	});
-	res.render('addToDB_success', {title: 'Database Update Success!', location:'/'});
+	//res.render('addToDB_success', {title: 'Database Update Success!', location:'/'});
 	}
 };
+

@@ -12,11 +12,7 @@ block content
 			bindto: '#barchart',
 			data: {
 			columns: [
-					[ '#{topSchools[0].INSTNM}', '#{topSchools[0].Total}' ],
-					[ '#{topSchools[1].INSTNM}', '#{topSchools[1].Total}' ],
-					[ '#{topSchools[2].INSTNM}', '#{topSchools[2].Total}' ],
-					[ '#{topSchools[3].INSTNM}', '#{topSchools[3].Total}' ],
-					[ '#{topSchools[4].INSTNM}', '#{topSchools[4].Total}' ]				
+					[ 'Enrollments', '#{topSchools[0].Total}', '#{topSchools[1].Total}', '#{topSchools[2].Total}','#{topSchools[3].Total}', '#{topSchools[4].Total}' ]			
 			],
 
 			type: 'bar'
@@ -38,5 +34,13 @@ block content
 			
 			tooltip: {
 				show: false
+			},
+			
+			axis: {
+				x: {
+					tick: {
+						values: ['#{topSchools[0].INSTNM}', '#{topSchools[1].INSTNM}', '#{topSchools[2].INSTNM}', '#{topSchools[3].INSTNM}', '#{topSchools[4].INSTNM}']
+					}
+				}
 			}
 		});

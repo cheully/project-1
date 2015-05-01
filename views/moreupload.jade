@@ -1,0 +1,55 @@
+extends layout
+
+block content
+	h1 #{title}
+	
+	button(id="gender") Gender
+	
+	#wrapper
+	button(id="tuition") Tuitions
+	
+	div(id="gender_upload", style="display:none")
+	
+		p Please upload a #{filetype} file
+		
+		form(id="upload", enctype="multipart/form-data", method="post", action="#{location}")
+			
+			input(id="fileupload", name="csvFile", type="file", accept=".csv,.txt,.xls,.xlsx")
+			
+			input(type="submit", value="submit", id="submit")
+			
+	div(id="tuition_upload", style="display:none")
+	
+		p Please upload multiple #{filetype} files
+		
+		form(id="upload", enctype="multipart/form-data", method="post", action="#{location}")
+			
+			input(id="fileupload", name="csvFile", type="file", accept=".csv,.txt,.xls,.xlsx", multiple)
+			
+			input(type="submit", value="submit", id="submit")
+	
+	script
+		var numClicks = 0;
+		$('#gender').click( function() {
+			numClicks += 1;
+			
+			if (numClicks%2 === 1){
+				document.getElementById("gender_upload").style.display = "block";
+				document.getElementById("tuition").style.display = "none";
+			} else {
+				document.getElementById("gender_upload").style.display = "none";
+				document.getElementById("tuition").style.display = "block";
+			}
+		});
+		
+		$('#tuition').click( function() {
+			numClicks += 1;
+			
+			if (numClicks%2 === 1){
+				document.getElementById("tuition_upload").style.display = "block";
+				document.getElementById("gender").style.display = "none";
+			} else {
+				document.getElementById("tuition_upload").style.display = "none";
+				document.getElementById("gender").style.display = "block";
+			}
+		});
