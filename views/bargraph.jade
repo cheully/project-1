@@ -11,36 +11,42 @@ block content
 		var chart = c3.generate({
 			bindto: '#barchart',
 			data: {
+			x: 'x',
+			
 			columns: [
-					[ 'Enrollments', '#{topSchools[0].Total}', '#{topSchools[1].Total}', '#{topSchools[2].Total}','#{topSchools[3].Total}', '#{topSchools[4].Total}' ]			
+					['x', '#{topSchools[0].INSTNM}','#{topSchools[1].INSTNM}','#{topSchools[2].INSTNM}','#{topSchools[3].INSTNM}','#{topSchools[4].INSTNM}'],
+					['Enrollments', '#{topSchools[0].Total}', '#{topSchools[1].Total}', '#{topSchools[2].Total}','#{topSchools[3].Total}', '#{topSchools[4].Total}' ]			
 			],
 
-			type: 'bar'
+			type: 'bar',
+			
+			onclick: function (d, element) {chart.data.values('Enrollments');}
 			},
 			
 			bar: {
-				width: 100
+				width: 25
+			},
+			
+			axis: {
+				rotated: true,
+				x: {
+					type: 'category',
+					categories: ['#{topSchools[0].INSTNM}','#{topSchools[1].INSTNM}','#{topSchools[2].INSTNM}','#{topSchools[3].INSTNM}','#{topSchools[4].INSTNM}'],
+
+				}
 			},
 			
 			legend: {
 				item: {
 					onclick: function (id) { 
 						window.location.href= "/chart/" + id;
-					},
-					onmouseover: function (id) { chart.transform('pie', id) },
-					onmouseout: function (id) { chart.transform('bar', id) }
-				}
-			},
-			
-			tooltip: {
-				show: false
-			},
-			
-			axis: {
-				x: {
-					tick: {
-						values: ['#{topSchools[0].INSTNM}', '#{topSchools[1].INSTNM}', '#{topSchools[2].INSTNM}', '#{topSchools[3].INSTNM}', '#{topSchools[4].INSTNM}']
 					}
 				}
 			}
 		});
+		
+		d3.selectAll('.tick')
+			.on('click', function(value, index){
+				console.log(this);
+				console.log([value, index]);
+			});
