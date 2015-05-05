@@ -8,6 +8,8 @@ block content
 	div(id="barchart")
 	
 	script
+		
+		var data = !{JSON.stringify(topSchools)};
 		var chart = c3.generate({
 			bindto: '#barchart',
 			data: {
@@ -20,7 +22,7 @@ block content
 
 			type: 'bar',
 			
-			onclick: function (d, element) {chart.data.values('Enrollments');}
+			onclick: function (d, element) { console.log(data[d['x']].INSTNM);}
 			},
 			
 			bar: {
@@ -32,21 +34,23 @@ block content
 				x: {
 					type: 'category',
 					categories: ['#{topSchools[0].INSTNM}','#{topSchools[1].INSTNM}','#{topSchools[2].INSTNM}','#{topSchools[3].INSTNM}','#{topSchools[4].INSTNM}'],
-
 				}
 			},
 			
 			legend: {
-				item: {
-					onclick: function (id) { 
-						window.location.href= "/chart/" + id;
-					}
+				show: false
+			},
+			
+			tooltip: {
+				position: function (data, width, height, element) {
+					return {bottom: 0, left: 0}
 				}
 			}
+			
 		});
 		
 		d3.selectAll('.tick')
 			.on('click', function(value, index){
-				console.log(this);
-				console.log([value, index]);
+				var uy = data;
+				window.location.href= "/chart/" + uy[value].UNITID;
 			});

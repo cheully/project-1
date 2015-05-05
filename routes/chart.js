@@ -44,7 +44,7 @@ exports.viewInfo = function(req, res) {
 	var db = require('mongojs').connect(dburl, collection);
 	
 	// Get all the institutions' specified fields and sort them based on Total Enrollment in descending order
-	db.institutions.findOne({"INSTNM": req.params.sid}, {"GENDER.Male Enrollment":1, "GENDER.Female Enrollment":1}, function(err, info) {
+	db.institutions.findOne({"UNITID": req.params.sid}, {"GENDER.Male Enrollment":1, "GENDER.Female Enrollment":1}, function(err, info) {
 		
 		var genderList = new Array(); // Array to store the top 10 institutions
 		var longTitle = "Information for " + req.params.sid;
