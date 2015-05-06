@@ -4,13 +4,10 @@
  */
  
 exports.additionalfiles = function(req, res) {
-	res.render('moreupload', {title: 'Upload additional file', filetype:'data', location:'/upload/additional-uploaded'});
+	res.render('moreupload', {title: 'Upload additional file', filetype:'data', location:'/upload'});
 };
 
-exports.additional_success = function( req, res, next) {
-	for (var i=0; i<req.files.csvFile.length; i++){
-		console.log(req.files.csvFile[i].name);
-	}
+exports.gender_success = function( req, res, next) {
 
 	var fs = require('fs');
 	var fileName = req.files.csvFile.name;
@@ -66,52 +63,55 @@ exports.additional_success = function( req, res, next) {
 			var maleCount = 0;
 			var femaleCount = 0;
 			
-			for(var i in records){
-				
-				if ( ID === records[i]['UNITID'] ) {
-					// Add the values of the current object to the variables
-					totalCount = totalCount + parseInt(records[i]['EFTOTLT']);
-					maleCount = maleCount + parseInt(records[i]['EFTOTLM']);
-					femaleCount = femaleCount + parseInt(records[i]['EFTOTLW']);
+			collection.update({}, { $unset:{'GENDER':1}}, {multi: true}, function (err, d) { 
+				for(var i in records){
 					
-					// If it is the last record, add it to the database
-					if( i === records.length - 1) {
+					if ( ID === records[i]['UNITID'] ) {
+						// Add the values of the current object to the variables
+						totalCount = totalCount + parseInt(records[i]['EFTOTLT']);
+						maleCount = maleCount + parseInt(records[i]['EFTOTLM']);
+						femaleCount = femaleCount + parseInt(records[i]['EFTOTLW']);
+						
+						// If it is the last record, add it to the database
+						if( i === records.length - 1) {
+							var obj = new Object();
+							obj['GENDER'] = {'Total Enrollment' : totalCount, 'Male Enrollment' : maleCount, 'Female Enrollment' : femaleCount};
+							
+								collection.update({'UNITID': ID}, {$push: obj}, function(err, val) {
+								
+									console.log('Updated!');
+								});
+								
+							break;
+						}
+					
+					} else {
+						
 						var obj = new Object();
 						obj['GENDER'] = {'Total Enrollment' : totalCount, 'Male Enrollment' : maleCount, 'Female Enrollment' : femaleCount};
-						
-							collection.update({'UNITID': ID}, { $push: obj }, function(err, val) {
 							
+							collection.update({'UNITID': ID}, {$push: obj}, function(err, val) {
+								
 								console.log('Updated!');
 							});
-							
-						break;
-					}
-				
-				} else {
-					
-					var obj = new Object();
-					obj['GENDER'] = {'Total Enrollment' : totalCount, 'Male Enrollment' : maleCount, 'Female Enrollment' : femaleCount};
 						
-						collection.update({'UNITID': ID}, { $push: obj }, function(err, val) {
-							
-							console.log('Updated!');
-						});
-					
-					// Reset the four variables with the current values
-					ID = records[i]['UNITID'];
-					totalCount = parseInt(records[i]['EFTOTLT']);
-					maleCount = parseInt(records[i]['EFTOTLM']);
-					femaleCount = parseInt(records[i]['EFTOTLW']);
+						// Reset the four variables with the current values
+						ID = records[i]['UNITID'];
+						totalCount = parseInt(records[i]['EFTOTLT']);
+						maleCount = parseInt(records[i]['EFTOTLM']);
+						femaleCount = parseInt(records[i]['EFTOTLW']);
+					}
 				}
-			}
+				});
+			});
+			res.render('addToDB_success', {title: 'Database Update Success!', location:'/'});
 		});
-	});
-	//res.render('addToDB_success', {title: 'Database Update Success!', location:'/'});
-	}
+		
+		}
 };
 
 
-exports.additional_success = function( req, res, next) {
+exports.tuition_success = function( req, res, next) {
 
 	var fs = require('fs');
 	var fileName = req.files.csvFile.name;
@@ -178,8 +178,10 @@ exports.additional_success = function( req, res, next) {
 				});		
 			}
 		});
+		
+		res.render('addToDB_success', {title: 'Database Update Success!', location:'/'});
 	});
 	
-	//res.render('addToDB_success', {title: 'Database Update Success!', location:'/'});
+	
 };
 

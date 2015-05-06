@@ -12,7 +12,7 @@ block content
 	
 		p Please upload a #{filetype} file
 		
-		form(id="upload", enctype="multipart/form-data", method="post", action="#{location}")
+		form(id="upload", enctype="multipart/form-data", method="post", action="#{location}/gender-uploaded")
 			
 			input(id="fileupload", name="csvFile", type="file", accept=".csv,.txt,.xls,.xlsx")
 			
@@ -22,7 +22,7 @@ block content
 	
 		p Please upload multiple #{filetype} files
 		
-		form(id="upload", enctype="multipart/form-data", method="post", action="#{location}")
+		form(id="upload", enctype="multipart/form-data", method="post", action="#{location}/tuition-uploaded")
 			
 			input(id="fileupload", name="csvFile", type="file", accept=".csv,.txt,.xls,.xlsx")
 			

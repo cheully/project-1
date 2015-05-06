@@ -43,7 +43,8 @@ app.get('/frequencyupload',routes.frequency_upload); // Upload a frequency file
 app.post('/upload/frequency-uploaded', upload.frequency_success); // Frequency file uploaded successfully
 
 app.get('/additionaluploads',add.additionalfiles);
-app.post('/upload/additional-uploaded', add.additional_success);
+app.post('/upload/gender-uploaded', add.gender_success);
+app.post('/upload/tuition-uploaded', add.tuition_success);
 
 app.get('/chart', chart.bargraph);
 app.get('/chart/:sid', chart.viewInfo);
