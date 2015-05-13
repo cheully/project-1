@@ -35,6 +35,7 @@ exports.colleges = function(req, res){
 
 	// Get all the institutions and sort them alphabetically
 	db.find({}).sort({'INSTNM':1}, function(err, collegeLists) {
+		console.log("Colleges that were sent to jade view: " + collegeLists);
 		res.render('colleges', { title: 'Colleges', list: collegeLists });
 	});
 };

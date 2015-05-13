@@ -60,7 +60,7 @@ exports.list = function(req, res, next){
 							} else {obj[k] = schoolInfo[0][k]};
 						}
 						
-						console.log(obj);
+						console.log("Modified object for jade view: \n" + obj);
 						
 						// Render schoollist view with the following properties
 						res.render('schoollist', { title: 'Info', list : obj, heads: titleHeads, schoolTitle: schoolInfo[0]['INSTNM']});				
