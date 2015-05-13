@@ -3,11 +3,42 @@ extends layout
 block content
 	h1 #{title}
 	
-	p Please upload a #{filetype} file
+	div(id="p") Please upload a #{filetype} file
 	
-	form(id="upload", enctype="multipart/form-data", method="post", action="#{location}")
-		
+	#wrapper
+	
+	form(id="upload", enctype="multipart/form-data", method="post", action="#{location}", onsubmit="return validate()")
+	
 		input(id="fileupload", name="csvFile", type="file", accept=".csv,.txt,.xls,.xlsx")
+		
+		#wrapper
 		
 		input(type="submit", value="submit", id="submit")
 	
+	div(id="load")
+	div(id="gif", style="display:none")
+		img(id="gif", src = "http://38.media.tumblr.com/345127a42a4baf76158920730f808f3b/tumblr_nak5muSmwi1r2geqjo1_500.gif", height="200", width="200" )
+	
+	script
+
+			function validate () {
+				if(document.getElementById('fileupload').value === "") {
+					alert('No file selected! Please choose a file');
+					return false;
+					
+				} else {
+					document.getElementById("upload").style.display = "none";
+					document.getElementById("p").style.display = "none";
+					
+					document.getElementById('load').innerHTML = " File is currently being loaded into mongoDB ";
+					document.getElementById("gif").style.display = "block";
+					
+					return true;
+				}
+				
+			}
+		
+		
+		
+
+		

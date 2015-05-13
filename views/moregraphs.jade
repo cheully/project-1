@@ -1,33 +1,143 @@
 extends layout
 
 block content
-	h1 #{title}
-
-	div(id="piechart")
-		span(id="L", style="display:none")
+	script(src='/scripts/pie_line_GraphValues.js')
 	
-	div(id="linechart")
+	h1 #{title}
+	
+	#wrapper
+	
+	div(id="displayPie") Gender Distribution
+		div(id="pieChart", style="display:none")
+	
+	div(id="L", style="display:none")
+	
+	#wrapper
+	
+	div(id="displayLine") Tuition Progress over the last three years
+		#wrapper
+		div(id="lineChart", style="display:none") 
+		
 	
 	script
-		var chart = c3.generate({
-			bindto: '#piechart',
-			data: {
-			columns: [
-					[ "Female", '#{genderRatio[0].Female}' ],
-					[ "Male", '#{genderRatio[1].Male}' ],			
-			],
+	
+		var data = !{JSON.stringify(institutionInfo)},
+			lineData = create_lineData(data);
+			
+		if (data.length >= 2) { 
+			var pieChart = c3.generate({
+				bindto: '#pieChart',
+				data: {
+				columns: [
+						[ "Female", data[0]['Female'] ],
+						[ "Male", data[1]['Male'] ],			
+				],
 
-			type: 'pie',
+				type: 'pie',
+				
+				colors: {
+					Female: 'pink',
+					Male: 'blue'
+				},
+				
+				onmouseover: function(d,i){ 
+						document.getElementById("L").style.display = "block";
+						document.getElementById("L").innerHTML= "Currently, there are " + JSON.stringify(d['value']) + " " + d['id'].toLowerCase() + "s enrolled!";
+					},
+							
+				onmouseout: function(d,i){ document.getElementById("L").style.display = "none" },
+				},
+				
+				tooltip: {
+				
+					show: true
+				
+				}
+			});
+		} else {
+			document.getElementById("pieChart").innerHTML = "Sorry, no information is available at the moment";
+		}
+
+		
+		var lineX = create_DataList(lineData, 'x'),
+			dataX = create_DataList(lineData,'Tuition');
+
+		if (data.length > 2) {
+			var lineChart = c3.generate({
+				bindto: '#lineChart',
+				
+				data: {
+					x:'x',
+					
+					columns: [
+						lineX,
+						dataX,
+					]	
+				
+				},
+				
+				legend: {
+						show: false
+				},
+				
+				axis: {
+						x: {
+							type: 'category',
+							categories: dataX.slice(1,-1),
+							
+							label: {
+								text: "Year",
+								position: 'outer-middle'
+							}
+						},
+						
+						y: {
+							label: {
+								text: "Total Tuition Cost",
+								position: 'outer-middle'
+							},
+							
+							tick: {
+								format: d3.format("$,")
+							}
+						
+						}
+					
+				},
+				
+				tooltip: {
 			
-			onmouseover: function(d,i){ document.getElementById("piechart").style.display = "block";
-					document.getElementByTagName("div")[0].innerHTML= "Currently, there are " + JSON.stringify(d['value']) + " " + d['id'].toLowerCase() + "s enrolled!";
-			console.log("Currently, there are " + JSON.stringify(d['value']) + " " + d['id'].toLowerCase() + "s enrolled!"); }},
+					position: function (data, width, height, element) {
+						return {top: 200, left: 400}
+					}
+				},
 			
-			onmouseout: function(d,i){ document.getElementById("L").style.display = "none" },
+			});
+		} else {
+			document.getElementById("lineChart").innerHTML = "Sorry, no information is available at the moment";
+		}
+		
+		var pieClicks = 0;
+		var lineClicks = 0;
+		
+		$('#displayPie').click( function() {
+			pieClicks += 1;
 			
-			tooltip: {
+			if (pieClicks%2 === 1){
+				document.getElementById("pieChart").style.display = "block";
+
+			} else {
+				document.getElementById("pieChart").style.display = "none";
+			}
+		});
+		
+		$('#displayLine').click( function() {
+			lineClicks += 1;
 			
-				show: false
-			
+			if (lineClicks%2 === 1){
+				document.getElementById("lineChart").style.display = "block";
+				
+			} else {
+				document.getElementById("lineChart").style.display = "none";
 			}
 		});

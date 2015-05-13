@@ -4,184 +4,44 @@
  */
  
 exports.additionalfiles = function(req, res) {
-	res.render('moreupload', {title: 'Upload additional file', filetype:'data', location:'/upload'});
+	res.render('moreupload', {title: 'Upload additional file', filetype:'data', location:'/choose/upload'});
 };
 
-exports.gender_success = function( req, res, next) {
+exports.enrollment_success = function(req, res) {
 
-	var fs = require('fs');
-	var fileName = req.files.csvFile.name;
+	var upload = rekuire('fileUpload.js'),
+		m = rekuire('mongoClient_Upload'),
+		dir = './incoming/' + req.files.csvFile.name;
 	
-	if(fileName === '') {
-
-		res.render('error', {title: 'Upload Error!', msg: 'No file selected! Please upload a file!', location: '/additionaluploads'} );
-		var tmp_path = req.files.csvFile.path;
-		
-			// delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-			fs.unlink(tmp_path, function(err) {
-				if (err) throw err;
-			});
-		
-	} else {		
-		// get the temporary location of the file
-		var tmp_path = req.files.csvFile.path;
-		// set where the file should actually exists - in this case it is in the "incoming" directory
-		var target_path = './incoming/' + fileName;
-		// move the file from the temporary location to the intended location
-		fs.rename(tmp_path, target_path, function(err) {
-			if (err) throw err;
-			// delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-			fs.unlink(tmp_path, function() {
-				if (err) throw err;
-				//res.render('upload_success', {title: 'Success!'} );
-			});
-		});
-		
-	var csv = require('csv'),
-		async = require('async'),
-		fs = require('fs'),
-		records = new Array(),
-		records = [];
+	// Uploads the csv file to the incoming folder	
+	upload.fUpload(req.files.csvFile.name, req.files.csvFile.path);
 	
-	csv(records)
-		.from.stream(fs.createReadStream('./incoming/' + fileName), {
-		columns: true
-	})
-		.on('record', function (row, index) {
-		records.push(row);
-
-	})
-		.on('end', function (count) {
-		var MongoClient = require('mongodb').MongoClient;
-	   // Connect to the db
-		MongoClient.connect("mongodb://localhost:27017/IPEDS_Documentation", function (err, db) {
-			if(err) throw err;
-			
-			var collection = db.collection('institutions');
-			var ID = records[0]['UNITID'];
-			var totalCount = 0;
-			var maleCount = 0;
-			var femaleCount = 0;
-			
-			collection.update({}, { $unset:{'GENDER':1}}, {multi: true}, function (err, d) { 
-				for(var i in records){
-					
-					if ( ID === records[i]['UNITID'] ) {
-						// Add the values of the current object to the variables
-						totalCount = totalCount + parseInt(records[i]['EFTOTLT']);
-						maleCount = maleCount + parseInt(records[i]['EFTOTLM']);
-						femaleCount = femaleCount + parseInt(records[i]['EFTOTLW']);
-						
-						// If it is the last record, add it to the database
-						if( i === records.length - 1) {
-							var obj = new Object();
-							obj['GENDER'] = {'Total Enrollment' : totalCount, 'Male Enrollment' : maleCount, 'Female Enrollment' : femaleCount};
-							
-								collection.update({'UNITID': ID}, {$push: obj}, function(err, val) {
-								
-									console.log('Updated!');
-								});
-								
-							break;
-						}
-					
-					} else {
-						
-						var obj = new Object();
-						obj['GENDER'] = {'Total Enrollment' : totalCount, 'Male Enrollment' : maleCount, 'Female Enrollment' : femaleCount};
-							
-							collection.update({'UNITID': ID}, {$push: obj}, function(err, val) {
-								
-								console.log('Updated!');
-							});
-						
-						// Reset the four variables with the current values
-						ID = records[i]['UNITID'];
-						totalCount = parseInt(records[i]['EFTOTLT']);
-						maleCount = parseInt(records[i]['EFTOTLM']);
-						femaleCount = parseInt(records[i]['EFTOTLW']);
-					}
-				}
-				});
-			});
-			res.render('addToDB_success', {title: 'Database Update Success!', location:'/'});
-		});
-		
-		}
+	// Parses the csv file into an array of objects
+	var records = upload.csvParser(dir);
+	
+	// Uploads the enrollment information for the institutions from array to mongoDB
+	m.mongoEnrollments(records, res);
+	
 };
 
 
-exports.tuition_success = function( req, res, next) {
+exports.tuition_success = function(req, res) {
 
-	var fs = require('fs');
-	var fileName = req.files.csvFile.name;
-	var year = '20' + fileName.substring(3,5);
-			
-		// get the temporary location of the file
-		var tmp_path = req.files.csvFile.path;
-		// set where the file should actually exists - in this case it is in the "incoming" directory
-		var target_path = './incoming/' + fileName;
-		// move the file from the temporary location to the intended location
-		fs.rename(tmp_path, target_path, function(err) {
-			if (err) throw err;
-			// delete the temporary file, so that the explicitly set temporary upload dir does not get filled with unwanted files
-			fs.unlink(tmp_path, function() {
-				if (err) throw err;
-				//res.render('upload_success', {title: 'Success!'} );
-			});
-		});
-		
-	var csv = require('csv'),
-		fs = require('fs'),
-		records = new Array(),
-		records = [];
-		
-	csv(records)
-		.from.stream(fs.createReadStream('./incoming/' + fileName), {
-		
-		columns: true
-	})
-		.on('record', function (row, index) {
-		records.push(row);
-	})
-		.on('end', function (count) {
-		var MongoClient = require('mongodb').MongoClient;
-	   // Connect to the db
-		MongoClient.connect("mongodb://localhost:27017/IPEDS_Documentation", function (err, db) {
-			if(err) throw err;
-			
-			var collection = db.collection('institutions');
-			
-			for(var i in records){
-				
-				var totalTuitions = parseInt(records[i]['F1B01']) +  parseInt(records[i]['F1E08']);
-				
-				collection.find({$and:[{'UNITID': records[i]['UNITID']}, {'TUITION':{$exists:true}} ]}).count(function(err, value) {
-					
-					var obj = new Object();
-					obj[year] = totalTuitions;
-					
-					//console.log(value);
-					if (parseInt(value) === 0) {
-						collection.update({'UNITID': records[i]['UNITID']}, {$push:{'TUITION':obj}}, function(err, done) {
-								//console.log('Created and saved!');
-						});
-							
-					} else {
-						var name = 'TUITION.'+year;
-						collection.update({'UNITID': records[i]['UNITID']}, {$set:{ name:totalTuitions}}, { upsert: true }, function(err, done) {
-								console.log('Saved!');
-						});
-						
-					}
+	var fileName = req.files.csvFile.name,
+		year = '20' + fileName.substring(3,5),
+		upload = rekuire('fileUpload.js'),
+		m = rekuire('mongoClient_Upload'),
+		dir = './incoming/' + fileName;
 	
-				});		
-			}
-		});
-		
-		res.render('addToDB_success', {title: 'Database Update Success!', location:'/'});
-	});
+	// Uploads the csv file to the incoming folder	
+	upload.fUpload(fileName, req.files.csvFile.path);
 	
+	// Parses the csv file into an array of objects
+	var records = upload.csvParser(dir);
 	
+	// Uploads the enrollment information for the institutions from array to mongoDB
+	m.mongoTuitions(year, records, res);
+
 };
+
 

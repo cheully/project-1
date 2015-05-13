@@ -3,25 +3,13 @@ extends layout
 block content
 	h1 #{title}
 	
-	a(href="fileupload")
-		button Upload a data file
+	p This site is for summerizing and viewing the information on the available instituitons from the IPEDS website.
 	
-	#wrapper	
-	a(href="descriptionupload")
-		button Upload the description file for the uploaded data file
+	p Below shows how to use this website:
 	
-	#wrapper
-	a(href="frequencyupload")
-		button Upload the frequency file for the uploaded data file
-	
-	#wrapper
-	a(href="additionaluploads")
-		button Add more information to the data file
-		
-	#wrapper
-	a(href="colleges")
-		button Colleges
-		
-	#wrapper
-	a(href="chart")
-		button Charts
+	ul
+		li The 'Upload' selection will ask you to upload a series of files. The first three uploads must be done first before adding additional information.
+		#wrapper
+		li The 'View all Institutions' shows all the available institutions as well as their summerized information
+		#wrapper
+		li The 'Top 10 Institutions' show the top 10 institutions with the most number of students 

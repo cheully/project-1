@@ -1,3 +1,5 @@
+global.rekuire = require('rekuire');
+
 var express = require('express'),
    fs = require('fs'),
    routes = require('./routes'),
@@ -5,11 +7,14 @@ var express = require('express'),
    upload = require('./routes/upload'),
    add = require('./routes/add'),
    chart = require('./routes/chart'),
-   //dbparser = require('./routes/dbparser'),
+   models = ('./models');
    http = require('http'),
-   path = require('path');
-
+   path = require('path'),
+   myPromise = require('mpromise');
+	
+   
 var app = express();
+
 
 app.configure(function () {
 	app.set('port', process.env.PORT || 3000);
@@ -33,22 +38,27 @@ app.get('/colleges/:id', user.list); //This give the user.js the address to show
 
 
 app.get('/',routes.indexes); // Welcome page
-app.get('/fileupload',routes.file_upload); // Upload a data file
-app.post('/upload/file-uploaded', upload.file_success); //Data file was loaded successfully
 
-app.get('/descriptionupload',routes.description_upload); // Upload a description file
-app.post('/upload/description-uploaded', upload.description_success); // Description file successfully uploaded
+app.get('/choose',routes.choose_upload);// Choose type of upload
+app.get('/choose/fileupload',routes.file_upload); // Upload a data file
+app.post('/choose/upload/file-uploaded', upload.file_success); //Data file was loaded successfully
 
-app.get('/frequencyupload',routes.frequency_upload); // Upload a frequency file
-app.post('/upload/frequency-uploaded', upload.frequency_success); // Frequency file uploaded successfully
+app.get('/choose/descriptionupload',routes.description_upload); // Upload a description file
+app.post('/choose/upload/description-uploaded', upload.description_success); // Description file successfully uploaded
 
-app.get('/additionaluploads',add.additionalfiles);
-app.post('/upload/gender-uploaded', add.gender_success);
-app.post('/upload/tuition-uploaded', add.tuition_success);
+app.get('/choose/frequencyupload',routes.frequency_upload); // Upload a frequency file
+app.post('/choose/upload/frequency-uploaded', upload.frequency_success); // Frequency file uploaded successfully
+
+app.get('/choose/additionaluploads',add.additionalfiles);
+
+app.post('/choose/upload/enrollment-uploaded', add.enrollment_success);
+app.post('/choose/upload/tuition-uploaded', add.tuition_success);
 
 app.get('/chart', chart.bargraph);
 app.get('/chart/:sid', chart.viewInfo);
+app.get('/testPage', chart.tests);
 
 http.createServer(app).listen(app.get('port'), function () {
 	console.log("Express server listening on port " + app.get('port'));
+
 });

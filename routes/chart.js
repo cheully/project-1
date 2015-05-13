@@ -4,12 +4,12 @@
 	
 exports.bargraph = function(req, res) {
 	// Connecting to the mongodb database with the information from the institution document
-	var dburl = 'localhost:27017/IPEDS_Documentation';
-	var collection = ['institutions'];
-	var db = require('mongojs').connect(dburl, collection);
+
+	var c = rekuire('connect.js'),
+		db = c.iConnect();
 	
 	// Get all the institutions' specified fields and sort them based on Total Enrollment in descending order
-	db.institutions.find({}, {"UNITID": 1, "INSTNM": 1, "GENDER.Total Enrollment":1}).sort({"GENDER.Total Enrollment": -1}, function(err, info) {
+	db.find({}, {"UNITID": 1, "INSTNM": 1, "ENROLLMENT.Total Enrollment":1}).sort({"ENROLLMENT.Total Enrollment": -1}, function(err, info) {
 
 		var list = new Array(); // Array to store the top 10 institutions
 		
@@ -19,7 +19,7 @@ exports.bargraph = function(req, res) {
 				var obj = new Object(); // Object that will store the edited key-value pairs
 				
 				for (var key in info[i]) {
-					if (key === "GENDER") {
+					if (key === "ENROLLMENT") {
 						// Recognizing the stored objects in info and converting it to integer
 						obj["Total"] = parseInt(JSON.stringify(info[i][key][0]["Total Enrollment"]));
 					} else {
@@ -32,43 +32,52 @@ exports.bargraph = function(req, res) {
 				break;
 		}
 		
-		//console.log(list);
+		console.log(list);
 		// Render bargraph with the title and lists
-		res.render('bargraph', {title: 'Bar Graph', topSchools: list});
+		res.render('bargraph', {title: 'The Top 10 Institutions', topSchools: list});
 	});
 };
 
 exports.viewInfo = function(req, res) {
-	var dburl = 'localhost:27017/IPEDS_Documentation';
-	var collection = ['institutions'];
-	var db = require('mongojs').connect(dburl, collection);
+	var c = rekuire('connect.js'),
+		db = c.iConnect();
 	
 	// Get all the institutions' specified fields and sort them based on Total Enrollment in descending order
-	db.institutions.findOne({"UNITID": req.params.sid}, {"GENDER.Male Enrollment":1, "GENDER.Female Enrollment":1, "TUITION": 1}, function(err, info) {
+	db.find({"UNITID": req.params.sid}, {"INSTNM":1, "ENROLLMENT.Male Enrollment":1, "ENROLLMENT.Female Enrollment":1, "TUITION": 1}, function(err, info) {
 		
-		var genderList = new Array(); // Array to store the top 10 institutions
-		var longTitle = "Information for " + req.params.sid;
+		var list = new Array(); // Array to store the top 10 institutions
+		//console.log(info);
+		var longTitle = "More information for " + info[0]["INSTNM"];
 		
-		for (var key in info) {
+		for (var key in info[0]) {
 			
-			if (key === "GENDER") {
+			if (key === "ENROLLMENT") {
 				// Recognizing the stored objects in info and converting it to integer
 
 				var obj = new Object();
-				obj["Female"] = parseInt(JSON.stringify(info[key][0]["Female Enrollment"]));
-				genderList.push(obj);
+				obj["Female"] = parseInt(JSON.stringify(info[0][key][0]["Female Enrollment"]));
+				list.push(obj);
 				
 				var obj = new Object();
-				obj["Male"] = parseInt(JSON.stringify(info[key][0]["Male Enrollment"]));
-				genderList.push(obj);	// Put new object into list
-			} 
+				obj["Male"] = parseInt(JSON.stringify(info[0][key][0]["Male Enrollment"]));
+				list.push(obj);	// Put new object into list
+			}
+			
+			if (key === "TUITION") {
+				for (var item in info[0][key]) {
+					list.push(info[0][key][item]);
+				}
+			}
 		}
-		console.log(genderList);
+		console.log(list.sort());
 		// Render bargraph with the title and lists
-		res.render('moregraphs', {title: longTitle, genderRatio: genderList});
+		res.render('moregraphs', {title: longTitle, institutionInfo: list});
 	});
 	
 
 
 };
 
+exports.tests = function(req, res) {
+	res.render('testPage', {title: 'QUnit Test'} );
+};

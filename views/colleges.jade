@@ -2,9 +2,12 @@ extends layout
 
 block content
 	h1 #{title}
-	
-	#wrapper
-	
+
+	div(class="list")
 	each school, i in list
-		li
-			a(href="colleges/#{school.UNITID}")= school.INSTNM
+		if i%2 === 0
+			li(id="name", style="background-color:#E6E6B8; ")
+				a(href="colleges/#{school.UNITID}")= school.INSTNM
+		else
+			li(id="name", style="background-color:#B8B893")
+				a(href="colleges/#{school.UNITID}")= school.INSTNM

@@ -3,41 +3,46 @@ extends layout
 block content
 	h1 #{title}
 	
-	button(id="gender") Gender
-	
-	#wrapper
-	button(id="tuition") Tuitions
-	
-	div(id="gender_upload", style="display:none")
-	
-		p Please upload a #{filetype} file
+	div(id="main")
+		button(id="enrollment") Enrollment Statistics
 		
-		form(id="upload", enctype="multipart/form-data", method="post", action="#{location}/gender-uploaded")
-			
-			input(id="fileupload", name="csvFile", type="file", accept=".csv,.txt,.xls,.xlsx")
-			
-			input(type="submit", value="submit", id="submit")
-			
-	div(id="tuition_upload", style="display:none")
-	
-		p Please upload multiple #{filetype} files
+		#wrapper
+		button(id="tuition") Tuition Statistics
 		
-		form(id="upload", enctype="multipart/form-data", method="post", action="#{location}/tuition-uploaded")
+		div(id="enrollment_upload", style="display:none")
+		
+			p Please upload a #{filetype} file
 			
-			input(id="fileupload", name="csvFile", type="file", accept=".csv,.txt,.xls,.xlsx")
+			form(id="upload", enctype="multipart/form-data", method="post", action="#{location}/enrollment-uploaded", onsubmit="return validate()")
+				
+				input(id="fileupload", name="csvFile", type="file", accept=".csv,.txt,.xls,.xlsx")
+				
+				input(type="submit", value="Submit", id="submit")
+				
+		div(id="tuition_upload", style="display:none")
+		
+			p Please upload multiple #{filetype} files one at a time
 			
-			input(type="submit", value="submit", id="submit")
+			form(id="upload", enctype="multipart/form-data", method="post", action="#{location}/tuition-uploaded", onsubmit="return validate()")
+				
+				input(id="fileupload", name="csvFile", type="file", accept=".csv,.txt,.xls,.xlsx")
+				
+				input(type="submit", value="Submit", id="submit")
+	
+	div(id="load")
+	div(id="gif", style="display:none")
+		img(id="gif", src = "http://38.media.tumblr.com/345127a42a4baf76158920730f808f3b/tumblr_nak5muSmwi1r2geqjo1_500.gif", height="200", width="200" )
 	
 	script
 		var numClicks = 0;
-		$('#gender').click( function() {
+		$('#enrollment').click( function() {
 			numClicks += 1;
 			
 			if (numClicks%2 === 1){
-				document.getElementById("gender_upload").style.display = "block";
+				document.getElementById("enrollment_upload").style.display = "block";
 				document.getElementById("tuition").style.display = "none";
 			} else {
-				document.getElementById("gender_upload").style.display = "none";
+				document.getElementById("enrollment_upload").style.display = "none";
 				document.getElementById("tuition").style.display = "block";
 			}
 		});
@@ -47,9 +52,24 @@ block content
 			
 			if (numClicks%2 === 1){
 				document.getElementById("tuition_upload").style.display = "block";
-				document.getElementById("gender").style.display = "none";
+				document.getElementById("enrollment").style.display = "none";
 			} else {
 				document.getElementById("tuition_upload").style.display = "none";
-				document.getElementById("gender").style.display = "block";
+				document.getElementById("enrollment").style.display = "block";
 			}
 		});
+		
+		function validate () {
+			if(document.getElementById('fileupload').value === "") {
+				alert('No file selected! Please choose a file');
+				return false;	
+			} else {
+				document.getElementById("main").style.display = "none";
+				
+				document.getElementById('load').innerHTML = " File is currently being loaded into mongoDB ";
+				document.getElementById("gif").style.display = "block";
+				
+				return true;
+			}
+			
+		}

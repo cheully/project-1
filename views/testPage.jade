@@ -1,0 +1,26 @@
+extends layout
+
+block content
+	script(src='/scripts/barGraphValues.js')
+	script(src='/scripts/pie_line_GraphValues.js')
+	
+	h1(id="qunit-header") QUnit Test Suite
+	
+	h2(id="qunit-banner")
+	
+	div(id="qunit-testrunner-toolbar")
+	
+	h2(id="qunit-userAgent")
+	
+	ol(id="qunit-tests")
+	
+	script
+		test("Bar Garph Data Basis", function() {
+			var data = [{"INSTNM": 'Ashford University', Total: 9000},{"ISTNM": 'Ohio State University'}];
+			
+			ok(get_Size(data), "The list of schools is not zero");
+			ok(institution_exists('ABC', data), 'Not an institution');
+			ok(total_NonZero(data[0]), 'The total value is not zero');
+			ok(get_Size(data), 'Get an array of institutions');
+			ok(institution_exists('Ashford University', data), 'Ashford University is in the top 10 list!');
+		});

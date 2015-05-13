@@ -1,11 +1,16 @@
 html{
-	position:relative;
-	height:10%;
+	position:absolute;
+	height:20%;
 	top: 0;
 	left: 0;
-	padding: 10px;
+	width:89%;
+	margin: 0;
+	padding: 60px;
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-	background-color: #99CCFF;
+	background: url("http://images2.layoutsparks.com/1/231587/summer-yellow-white-stripes.jpg");
+	background-size: 2500px 900px;
+    background-repeat: repeat;
+	z-index: -1;
 }
 
 a {
@@ -13,12 +18,17 @@ a {
 	text-decoration: none;
 }
 
-li {
+a:hover {
+	background: #FFD6AD;
+	color: #000066;
+}
+
+#name {
 	position:relative;
-	left:17%;
-	width:50%;
-	height:4.5%;
-	padding: 10px;
+	left:25%;
+	width:70%;
+	height:20%;
+	padding: 15px;
 	font-size: 25px;
 }
 	
@@ -34,7 +44,7 @@ table {
 
 table, th, td {
 	width: 100%;
-	border: 1px solid black;
+	border: 2px solid black;
 	border-collapse: collapse;
  }
  
@@ -42,3 +52,101 @@ table, th, td {
 	position:relative;
 	padding:25px;
  }
+
+ #load {
+	position: absolute;
+	padding: 15px;
+	left: 35%;
+	font: 20px georgia, serif;
+	overflow-y: hidden;
+ }
+ 
+ #gif{
+	position: absolute;
+	padding: 20px;
+	left: 35%;
+ }
+ 
+ #fileupload, #p{
+ 	position: absolute;
+	padding: 10px;
+	left: 42%;
+ }
+ 
+#submit{
+ 	position: absolute;
+	padding: 10px;
+	left: 48%;
+ }
+ 
+ p {
+	font-size: 150%;
+ }
+ 
+ li{
+	font-size: 120%;
+ }
+ 
+.navigation_bar {
+	position:fixed;
+	margin: auto;
+	padding:0;
+	left: 0;
+	top: 0;
+	right:0;
+	width: 100%;
+	height: 70px;
+	background: url("http://www.fccsc.k12.in.us/fchs/wordpress/wp-content/uploads/2013/09/Blue-Background-Images-HD-Wallpaper-1080x607.jpg");
+	display:inline;
+	border-style: groove;
+	border-color: #2F7676;
+	z-index:9999;
+}
+
+.navigation_bar #name{
+	position:absolute;
+	font: 30px impact, serif;
+	color: #CFCF53;
+	width:25%;
+	left: 12%;
+}
+
+.navigation_bar #name:hover {
+	font-size: 32px;
+	text-decoration: none;
+}
+
+.navigation_bar li {
+	list-style-type: none;
+    margin: 0;
+	padding: 0;
+	position: relative;
+	left: 50%;
+	text-align: center;
+	top: 3%;
+	width: 200px;
+	font-size: 20px;
+	
+}
+
+.navigation_bar li a{
+	color: #CFCF53;
+}
+
+.navigation_bar ul .group{
+	display: inline;
+	float:left;
+}
+
+.navigation_bar ul .group:hover {
+	font-size: 27px;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#displayPie, #displayLine, #L {
+	font-size: 20px;
+	cursor:pointer;
+	position: relative;
+	text-align: center;
+}

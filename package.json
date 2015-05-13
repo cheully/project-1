@@ -6,9 +6,10 @@
     "start": "node app"
   },
   "dependencies": {
+    "csv": "~0.2.9",
     "express": "3.1.0",
     "jade": "*",
-    "csv": "~0.2.9",
-    "mongodb": "~1.2.14"
+    "mongodb": "~1.2.14",
+    "reload": "^0.1.0"
   }
 }

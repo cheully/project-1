@@ -1,40 +1,45 @@
 extends layout
 
+
 block content
+	script(src='/scripts/barGraphValues.js')
+	
 	h1 #{title}
 	
 	
-	div(id="text") Hi
+	a(id="text", href="/testPage") Click here to view the QUnit tests 
+	
 	div(id="barchart")
 	
 	script
 		
-		var data = !{JSON.stringify(topSchools)};
+		var data = !{JSON.stringify(topSchools)},
+			xData = create_xData(data), 
+			enrollData = create_enrollData(data);
+
 		var chart = c3.generate({
 			bindto: '#barchart',
+			size: {
+				height : 500,
+				padding : 20
+			},
+			
 			data: {
 			x: 'x',
 			
 			columns: [
-					['x', '#{topSchools[0].INSTNM}','#{topSchools[1].INSTNM}','#{topSchools[2].INSTNM}','#{topSchools[3].INSTNM}','#{topSchools[4].INSTNM}'],
-					['Enrollments', '#{topSchools[0].Total}', '#{topSchools[1].Total}', '#{topSchools[2].Total}','#{topSchools[3].Total}', '#{topSchools[4].Total}' ]			
+					xData,
+					enrollData
 			],
 
 			type: 'bar',
 			
-			onclick: function (d, element) { console.log(data[d['x']].INSTNM);}
+			onclick: function (d, element) { window.location.href= "/chart/" + data[d['x']].UNITID; }
 			},
 			
 			bar: {
-				width: 25
-			},
-			
-			axis: {
-				rotated: true,
-				x: {
-					type: 'category',
-					categories: ['#{topSchools[0].INSTNM}','#{topSchools[1].INSTNM}','#{topSchools[2].INSTNM}','#{topSchools[3].INSTNM}','#{topSchools[4].INSTNM}'],
-				}
+				width: 25,
+				color:'green'
 			},
 			
 			legend: {
@@ -42,15 +47,38 @@ block content
 			},
 			
 			tooltip: {
+			
 				position: function (data, width, height, element) {
-					return {bottom: 0, left: 0}
+					return {top: 300, left: 1000}
+				}
+			},
+			
+			axis: {
+				rotated: true,
+				x: {
+					type: 'category',
+					categories: xData.slice(1,-1),
+					
+					label: {
+						text: "Institutions",
+						position: 'outer-middle'
+					}
+				},
+				
+				y : {
+				
+					label: {
+							text: "Total Enrollments (people)",
+							position: 'outer-middle',
+							
+							tick: {
+								format: d3.format(",")
+							}
+					}
+				
 				}
 			}
 			
 		});
 		
-		d3.selectAll('.tick')
-			.on('click', function(value, index){
-				var uy = data;
-				window.location.href= "/chart/" + uy[value].UNITID;
-			});
+		
